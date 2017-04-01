@@ -1,0 +1,18 @@
+# Temporary ignores
+___*.md
+semantics/
+intl/
+assets/
+package.json
+
+# Shared objects
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.elf
