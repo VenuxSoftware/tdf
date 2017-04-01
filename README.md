@@ -1,2 +1,3 @@
-# tdf
-The Document Foundation
+# The Document Foundation
+
+**prototype software! not yet working code** 
