@@ -5,8 +5,8 @@
 	Status: Alpha (phase 2)
 	-
 	Phases
-		1. Prototype [Layout generation               - Nov 13, 2015 .. May 1, 2017]
-		2. Alpha     [API & code generation           - May  1, 2017 .. ]
+		1. Prototype [Layout generation               - Nov 13, 2015 .. Apr 19, 2017]
+		2. Alpha     [API & code generation           - Apr 19, 2017 .. ]
 		3. Beta      [Code generation & optimizations - .. ]
 		4. RC1       [Release candidate 1             - .. ]
 		5. RC2       [Release candidate 2             - .. ]
