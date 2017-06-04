@@ -1,56 +1,36 @@
-/*
-  Status: prototype
-  Process: API generation
-*/
+// Just get the stats, and then don't do anything.
+// You can't really "read" from a socket.  You "connect" to it.
+// Mostly, this is here so that reading a dir with a socket in it
+// doesn't blow up.
 
-'use strict';
+module.exports = SocketReader
 
-const fs = require('fs');
-const Path = require('path');
+var inherits = require('inherits')
+var Reader = require('./reader.js')
 
-module.exports = findTest262Dir;
-function findTest262Dir(globber) {
-  const set = globber.minimatch.set;
-  let baseDir;
-  for (let i = 0; i < set.length; i++) {
-    let base = [];
+inherits(SocketReader, Reader)
 
-    for (let j = 0; j < set[i].length; j++) {
-      if (typeof set[i][j] !== 'string') {
-        break;
-      }
-
-      base.push(set[i][j]);
-    }
-
-    baseDir = findTest262Root(base.join("/"));
-
-    if (baseDir) {
-      break;
-    }
+function SocketReader (props) {
+  var self = this
+  if (!(self instanceof SocketReader)) {
+    throw new Error('SocketReader must be called as constructor.')
   }
 
-  return baseDir;
+  if (!(props.type === 'Socket' && props.Socket)) {
+    throw new Error('Non-socket type ' + props.type)
+  }
+
+  Reader.call(self, props)
 }
 
-function findTest262Root(path) {
-  const stat = fs.statSync(path);
-  if (stat.isFile()) {
-    path = Path.dirname(path);
+SocketReader.prototype._read = function () {
+  var self = this
+  if (self._paused) return
+  // basically just a no-op, since we got all the info we have
+  // from the _stat method
+  if (!self._ended) {
+    self.emit('end')
+    self.emit('close')
+    self._ended = true
   }
-
-  const contents = fs.readdirSync(path)
-  if (contents.indexOf('README.md') > -1
-      && contents.indexOf('test') > -1
-      && contents.indexOf('harness') > -1) {
-    return path;
-  }
-
-  const parent = Path.resolve(path, '../');
-
-  if (parent === path) {
-    return null;
-  }
-
-  return findTest262Root(parent);
 }
